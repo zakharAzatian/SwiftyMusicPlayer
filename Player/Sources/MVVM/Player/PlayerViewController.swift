@@ -13,14 +13,18 @@ import RxCocoa
 
 class PlayerViewController: UIViewController {
     
-    private let player: PlayerType = Player()
+    let button = UIButton()
+    let disposeBag = DisposeBag()
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle { return .lightContent }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        view.backgroundColor = .white
+        view.addSubview(button)
+        button.frame = view.bounds
+        button.rx.tap.subscribe(onNext: { _ in
+            self.dismiss(animated: false)
+        }).disposed(by: disposeBag)
     }
 }
-
