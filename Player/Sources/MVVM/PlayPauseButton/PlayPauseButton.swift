@@ -26,7 +26,6 @@ class PlayPauseButton: UIButton {
     }
     
     private func commonInit(frame: CGRect = .zero) {
-        backgroundColor = .red
         rx.tap.bind(to: viewModel.tapTrigger).disposed(by: disposeBag)
         viewModel.image.emit(to: rx.image()).disposed(by: disposeBag)
     }

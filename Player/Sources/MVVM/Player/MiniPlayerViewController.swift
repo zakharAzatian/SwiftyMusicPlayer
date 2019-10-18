@@ -66,7 +66,7 @@ class MiniPlayerViewController: UIViewController {
         blurBackgroundView.fill(in: view, toSafeArea: false)
         
         playPauseButton.fillVertically(in: view, toSafeArea: false)
-        playPauseButton.setTrailing(to: view, -8)
+        playPauseButton.setTrailing(to: view, -30)
         playPauseButton.setWidth(20)
         
         coverImageView.setLeading(to: view, 20)
