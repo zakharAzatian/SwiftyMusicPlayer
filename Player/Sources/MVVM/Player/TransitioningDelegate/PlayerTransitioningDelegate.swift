@@ -10,10 +10,10 @@ import UIKit
 
 final class PlayerTransitioningDelegate: NSObject, UIViewControllerTransitioningDelegate {
     
-    private let miniPlayerView: UIView
+    private let miniPlayerController: MiniPlayerViewController
     
-    init(miniPlayerView: UIView) {
-        self.miniPlayerView = miniPlayerView
+    init(miniPlayerController: MiniPlayerViewController) {
+        self.miniPlayerController = miniPlayerController
     }
     
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
@@ -22,6 +22,6 @@ final class PlayerTransitioningDelegate: NSObject, UIViewControllerTransitioning
     }
 
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return PlayerPresentingAnimationController(miniPlayerView: miniPlayerView)
+        return PlayerPresentingAnimationController(miniPlayerController: miniPlayerController)
     }
 }

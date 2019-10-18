@@ -10,27 +10,35 @@ import UIKit
 
 final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
     
-    private let miniPlayerView: UIView
+    private let miniPlayerController: MiniPlayerViewController
     
-    init(miniPlayerView: UIView) {
-        self.miniPlayerView = miniPlayerView
+    init(miniPlayerController: MiniPlayerViewController) {
+        self.miniPlayerController = miniPlayerController
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.6
+        return 1
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let presentedViewController = transitionContext.viewController(forKey: .to), let miniPlayerSnapshotView = miniPlayerView.snapshotView(afterScreenUpdates: false) else { return }
+        guard let presentedViewController = transitionContext.viewController(forKey: .to), let presentingViewController = transitionContext.viewController(forKey: .from) else { return }
         
+        miniPlayerController.coverImageView.isHidden = true
+        guard let miniPlayerSnapshotView = miniPlayerController.view.snapshotView(afterScreenUpdates: true) else { return }
+        
+        let coverImageView = UIImageView(image: miniPlayerController.coverImage)
+        coverImageView.contentMode = .scaleAspectFit
         let containerView = transitionContext.containerView
+        
         containerView.addSubview(presentedViewController.view)
         containerView.addSubview(miniPlayerSnapshotView)
+        containerView.addSubview(coverImageView)
     
         let finalFrameForPresentedView = transitionContext.finalFrame(for: presentedViewController)
         presentedViewController.view.frame = finalFrameForPresentedView
-        presentedViewController.view.frame.origin.y = containerView.bounds.height
-        miniPlayerSnapshotView.frame = miniPlayerView.frame
+        presentedViewController.view.frame.origin.y = containerView.bounds.height - miniPlayerController.view.bounds.height - presentingViewController.view.safeAreaInsets.bottom
+        miniPlayerSnapshotView.frame = miniPlayerController.view.frame
+        coverImageView.frame = miniPlayerController.coverImageView.convert(coverImageView.bounds, to: presentingViewController.view)
         
         UIView.animate(
             withDuration: transitionDuration(using: transitionContext),
@@ -39,9 +47,13 @@ final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnima
             initialSpringVelocity: 1,
             options: .curveEaseOut,
             animations: {
+                miniPlayerSnapshotView.alpha = 0.0
                 presentedViewController.view.frame = finalFrameForPresentedView
+                coverImageView.frame.origin = presentedViewController.view.center
                 miniPlayerSnapshotView.frame.origin = finalFrameForPresentedView.origin
-        }, completion: { finished in
+        }, completion: { [weak self] finished in
+            miniPlayerSnapshotView.removeFromSuperview()
+            self?.miniPlayerController.coverImageView.isHidden = false
             transitionContext.completeTransition(finished)
         })
     }

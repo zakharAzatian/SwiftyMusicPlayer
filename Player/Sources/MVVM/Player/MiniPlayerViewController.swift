@@ -12,18 +12,18 @@ import RxCocoa
 
 class MiniPlayerViewController: UIViewController {
     
-    //TODO: Add parent view controller to push from there
-    
     private let blurBackgroundView: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .light)
         let view = UIVisualEffectView(effect: blur)
         return view
     }()
     
-    private let coverImageView = UIImageView()
     private let playPauseButton = PlayPauseButton()
     private let nameLabel = UILabel()
     private let disposeBag = DisposeBag()
+    
+    let coverImageView = UIImageView()
+    var coverImage: UIImage = UIImage(named: "test")! // Test image
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,18 +82,18 @@ class MiniPlayerViewController: UIViewController {
         let coverImageCornerRadius: CGFloat = 3.0
         coverImageView.layer.cornerRadius = coverImageCornerRadius
         coverImageView.layer.masksToBounds = true
-        coverImageView.image = UIImage(named: "test")! // TODO: Remove testing image
+        coverImageView.image = coverImage
     }
     
     private func setupGestureRecognizers() {
         let tap = UITapGestureRecognizer()
         tap.rx.event.subscribe(onNext: { [weak self] _ in
-            guard let self = self, let view = self.view else { return }
+            guard let self = self else { return }
             let vc = PlayerViewController()
-            let transitionDelegate = PlayerTransitioningDelegate(miniPlayerView: self.view)
+            let transitionDelegate = PlayerTransitioningDelegate(miniPlayerController: self)
             vc.transitioningDelegate = transitionDelegate
             vc.modalPresentationStyle = .custom
-            self.present(vc, animated: true)
+            self.parent?.present(vc, animated: true)
         }).disposed(by: disposeBag)
         view.addGestureRecognizer(tap)
     }
