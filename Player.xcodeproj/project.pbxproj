@@ -121,9 +121,9 @@
 		9039B2B423588AC60092B8AA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				9039B2B723588AC60092B8AA /* Extensions */,
 				9039B2BA23588AC60092B8AA /* Services */,
 				9039B2BE23588AC60092B8AA /* MVVM */,
+				9039B2B723588AC60092B8AA /* Extensions */,
 				9039B2B523588AC60092B8AA /* Other */,
 			);
 			path = Sources;
@@ -625,6 +625,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = E7AZW33UG9;
 				INFOPLIST_FILE = Player/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -644,6 +645,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = E7AZW33UG9;
 				INFOPLIST_FILE = Player/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

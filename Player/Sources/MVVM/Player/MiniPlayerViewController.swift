@@ -10,6 +10,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+// TODO: Fix appearance with tab bar
+
 class MiniPlayerViewController: UIViewController {
     
     private let blurBackgroundView: UIVisualEffectView = {
@@ -22,7 +24,17 @@ class MiniPlayerViewController: UIViewController {
     private let nameLabel = UILabel()
     private let disposeBag = DisposeBag()
     
+    private let selectedColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
+     
+    private var isSelected = false {
+        didSet {
+            view.backgroundColor = isSelected ? selectedColor : .clear
+        }
+    }
+    
     let coverImageView = UIImageView()
+    let cornerRadius: CGFloat = 3.0
+    let coverImageViewContentMode: UIImageView.ContentMode = .scaleAspectFill
     var coverImage: UIImage = UIImage(named: "test")! // Test image
 
     override func viewDidLoad() {
@@ -39,11 +51,9 @@ class MiniPlayerViewController: UIViewController {
         viewController.addChild(player)
         viewController.view.addSubview(player.view)
         player.didMove(toParent: viewController)
-        
-        viewController.view.translatesAutoresizingMaskIntoConstraints = false
-        player.view.translatesAutoresizingMaskIntoConstraints = false
+    
         player.view.fillHorizontally(in: viewController.view)
-        player.view.setBottom(to: viewController.view)
+        player.view.setBottom(to: viewController.view, toSafeArea: true)
         player.view.setHeight(64)
         
         return player
@@ -54,15 +64,9 @@ class MiniPlayerViewController: UIViewController {
         view.addSubview(playPauseButton)
         view.addSubview(coverImageView)
         view.addSubview(nameLabel)
-        
     }
     
     private func setupConstraints() {
-        blurBackgroundView.translatesAutoresizingMaskIntoConstraints = false
-        playPauseButton.translatesAutoresizingMaskIntoConstraints = false
-        coverImageView.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         blurBackgroundView.fill(in: view, toSafeArea: false)
         
         playPauseButton.fillVertically(in: view, toSafeArea: false)
@@ -79,23 +83,48 @@ class MiniPlayerViewController: UIViewController {
     }
     
     private func configureViews() {
-        let coverImageCornerRadius: CGFloat = 3.0
-        coverImageView.layer.cornerRadius = coverImageCornerRadius
+        coverImageView.contentMode = coverImageViewContentMode
+        coverImageView.layer.cornerRadius = cornerRadius
         coverImageView.layer.masksToBounds = true
         coverImageView.image = coverImage
     }
     
     private func setupGestureRecognizers() {
-        let tap = UITapGestureRecognizer()
-        tap.rx.event.subscribe(onNext: { [weak self] _ in
-            guard let self = self else { return }
-            let vc = PlayerViewController()
-            let transitionDelegate = PlayerTransitioningDelegate(miniPlayerController: self)
-            vc.transitioningDelegate = transitionDelegate
-            vc.modalPresentationStyle = .custom
-            self.parent?.present(vc, animated: true)
+        let longTap = UILongPressGestureRecognizer()
+        longTap.minimumPressDuration = 0.0
+        longTap.delegate = self
+        
+        view.addGestureRecognizer(longTap)
+        
+        longTap.rx.event.subscribe(onNext: { gesture in
+            self.handleLongTapState(gesture.state)
         }).disposed(by: disposeBag)
-        view.addGestureRecognizer(tap)
     }
-
+    
+    private func handleLongTapState(_ state: UIGestureRecognizer.State) {
+        switch state {
+        case .began, .changed:
+            isSelected = true
+        case .ended:
+            presentPlayer()
+        default:
+            isSelected = false
+        }
+    }
+    
+    private func presentPlayer() {
+        let vc = PlayerViewController()
+        let transitionDelegate = PlayerTransitioningDelegate(miniPlayerController: self)
+        vc.transitioningDelegate = transitionDelegate
+        vc.modalPresentationStyle = .custom
+        parent?.present(vc, animated: true, completion: { [weak self] in
+            self?.isSelected = false
+        })
+    }
 }
+
+extension MiniPlayerViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return !(touch.view is UIControl)
+    }
+}	

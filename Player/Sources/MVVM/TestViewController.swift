@@ -18,19 +18,18 @@ class TestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .blue
+        view.backgroundColor = #colorLiteral(red: 0.9303606153, green: 0.9260264039, blue: 0.9358182549, alpha: 1)
         
         view.addSubview(button)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.fill(in: view)
         button.addTarget(self, action: #selector(tapped), for: .touchUpInside)
         
-        cont = MiniPlayerViewController.addMiniPlayerTo(viewController: self)
+        MiniPlayerViewController.addMiniPlayerTo(viewController: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("Correct Frame: ", cont?.view.frame)
+        
     }
     
     

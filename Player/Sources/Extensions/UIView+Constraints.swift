@@ -27,41 +27,50 @@ extension UIView {
     }
     
     func setLeading(to view: UIView, _ value: CGFloat, toSafeArea: Bool = true) {
+        self.translatesAutoresizingMaskIntoConstraints = false
         let anchor = toSafeArea ? view.safeAreaLayoutGuide.leadingAnchor : view.leadingAnchor
         leadingAnchor.constraint(equalTo: anchor, constant: value).isActive = true
     }
     
     func setTrailing(to view: UIView, _ value: CGFloat, toSafeArea: Bool = true) {
+        self.translatesAutoresizingMaskIntoConstraints = false
         let anchor = toSafeArea ? view.safeAreaLayoutGuide.trailingAnchor : view.trailingAnchor
         trailingAnchor.constraint(equalTo: anchor, constant: value).isActive = true
     }
     
     func setHeight(_ value: CGFloat) {
+        self.translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalToConstant: value).isActive = true
     }
     
     func setHeight(equalTo view: UIView) {
+        self.translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
     func setWidth(_ value: CGFloat) {
+        self.translatesAutoresizingMaskIntoConstraints = false
         widthAnchor.constraint(equalToConstant: value).isActive = true
     }
     
     func setWidth(equalTo view: UIView) {
+        self.translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     }
     
     func centeredY(in view: UIView, _ value: CGFloat = 0.0) {
+        self.translatesAutoresizingMaskIntoConstraints = false
         centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: value).isActive = true
     }
     
     func setBottom(to view: UIView, _ value: CGFloat = 0.0, toSafeArea: Bool = true) {
+        self.translatesAutoresizingMaskIntoConstraints = false
         let anchor = toSafeArea ? view.safeAreaLayoutGuide.bottomAnchor : view.bottomAnchor
         bottomAnchor.constraint(equalTo: anchor, constant: value).isActive = true
     }
     
     func setTop(to view: UIView, _ value: CGFloat = 0.0, toSafeArea: Bool = true) {
+        self.translatesAutoresizingMaskIntoConstraints = false
         let anchor = toSafeArea ? view.safeAreaLayoutGuide.topAnchor : view.topAnchor
         topAnchor.constraint(equalTo: anchor, constant: value).isActive = true
     }

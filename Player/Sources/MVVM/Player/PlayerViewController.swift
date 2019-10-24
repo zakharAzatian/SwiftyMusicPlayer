@@ -16,11 +16,13 @@ class PlayerViewController: UIViewController {
     let button = UIButton()
     let disposeBag = DisposeBag()
     
+    private var coverImageView = UIImageView()
+    
     override var preferredStatusBarStyle: UIStatusBarStyle { return .lightContent }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
         view.addSubview(button)
         button.frame = view.bounds
         button.rx.tap.subscribe(onNext: { _ in

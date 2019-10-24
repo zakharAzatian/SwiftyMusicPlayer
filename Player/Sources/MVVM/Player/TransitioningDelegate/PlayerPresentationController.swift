@@ -19,11 +19,10 @@ class PlayerPresentationConroller: UIPresentationController {
     
     override func presentationTransitionWillBegin() {
         super.presentationTransitionWillBegin()
+        
         guard let containerView = self.containerView, let window = containerView.window else { return }
 
         backgroundView.backgroundColor = UIColor.black
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        snaphotViewContainer.translatesAutoresizingMaskIntoConstraints = false
         
         containerView.addSubview(backgroundView)
         containerView.addSubview(snaphotViewContainer)
@@ -42,8 +41,8 @@ class PlayerPresentationConroller: UIPresentationController {
         snapshotView?.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         presentedView?.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         
-        presentingViewController.transitionCoordinator?.animate(alongsideTransition: { _ in
-            self.snapshotView?.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        presentingViewController.transitionCoordinator?.animate(alongsideTransition: { [weak self] _ in
+            self?.snapshotView?.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
         }, completion: nil)
     }
     
@@ -58,8 +57,7 @@ class PlayerPresentationConroller: UIPresentationController {
     override var frameOfPresentedViewInContainerView: CGRect {
         let presentingViewFrame = presentingViewController.view.frame
         let size = CGSize(width: presentingViewFrame.width, height: presentingViewFrame.height * 0.93)
-        
-        return CGRect(origin: CGPoint(x: .zero, y: presentingViewFrame.height - size.height), size: size)
+        return CGRect(origin: .init(x: .zero, y: presentingViewFrame.height - size.height), size: size)
     }
     
     private func addCornerRadiusAnimation(for view: UIView?, cornerRadius: CGFloat, duration: CFTimeInterval) {
