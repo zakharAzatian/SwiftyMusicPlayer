@@ -11,7 +11,9 @@ import UIKit
 struct Assets {
     
     struct icons {
-        static let play = UIImage(named: "icn_play")!
-        static let pause = UIImage(named: "icn_pause")!
+        static let play = UIImage(named: "ic_play")!
+        static let pause = UIImage(named: "ic_pause")!
+        static let prev = UIImage(named: "ic_prev")!
+        static let next = UIImage(named: "ic_next")!
     }
 }

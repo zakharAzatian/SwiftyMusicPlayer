@@ -28,6 +28,8 @@
 		9039B2E423588CC20092B8AA /* PlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9039B2BD23588AC60092B8AA /* PlayerTests.swift */; };
 		9039B2E6235891F70092B8AA /* PlayerTransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9039B2E5235891F70092B8AA /* PlayerTransitioningDelegate.swift */; };
 		9039B2E9235893DA0092B8AA /* PlayerPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9039B2E8235893DA0092B8AA /* PlayerPresentationController.swift */; };
+		903DE2ED23619B3300A45D96 /* UIView+CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903DE2EC23619B3300A45D96 /* UIView+CornerRadius.swift */; };
+		903DE2EF2361B35800A45D96 /* UISlider+ThumbImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903DE2EE2361B35800A45D96 /* UISlider+ThumbImage.swift */; };
 		90578C642358A80D00F49180 /* PlayerPresentingAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90578C632358A80D00F49180 /* PlayerPresentingAnimationController.swift */; };
 		F96F32680FB06E6ED951BF5F /* Pods_Player.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC327A2CB977542A9AAFCA1B /* Pods_Player.framework */; };
 /* End PBXBuildFile section */
@@ -67,6 +69,8 @@
 		9039B2CC23588AC60092B8AA /* MiniPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiniPlayerViewController.swift; sourceTree = "<group>"; };
 		9039B2E5235891F70092B8AA /* PlayerTransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTransitioningDelegate.swift; sourceTree = "<group>"; };
 		9039B2E8235893DA0092B8AA /* PlayerPresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPresentationController.swift; sourceTree = "<group>"; };
+		903DE2EC23619B3300A45D96 /* UIView+CornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+CornerRadius.swift"; sourceTree = "<group>"; };
+		903DE2EE2361B35800A45D96 /* UISlider+ThumbImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISlider+ThumbImage.swift"; sourceTree = "<group>"; };
 		90578C632358A80D00F49180 /* PlayerPresentingAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerPresentingAnimationController.swift; sourceTree = "<group>"; };
 		90C719DE234F14C600F0EE48 /* Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Player.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90DF9CF1234F55A8002403EE /* PlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +146,8 @@
 			children = (
 				9039B2B823588AC60092B8AA /* AVPlayer+Extensions.swift */,
 				9039B2B923588AC60092B8AA /* UIView+Constraints.swift */,
+				903DE2EC23619B3300A45D96 /* UIView+CornerRadius.swift */,
+				903DE2EE2361B35800A45D96 /* UISlider+ThumbImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -458,12 +464,14 @@
 				9039B2DA23588AC60092B8AA /* PlayPauseViewModel.swift in Sources */,
 				9039B2DF23588AC60092B8AA /* PlayerViewController.swift in Sources */,
 				9039B2DB23588AC60092B8AA /* PlayPauseButton.swift in Sources */,
+				903DE2ED23619B3300A45D96 /* UIView+CornerRadius.swift in Sources */,
 				9039B2D623588AC60092B8AA /* Player.swift in Sources */,
 				9039B2D523588AC60092B8AA /* UIView+Constraints.swift in Sources */,
 				9039B2D323588AC60092B8AA /* Assets.swift in Sources */,
 				9039B2D423588AC60092B8AA /* AVPlayer+Extensions.swift in Sources */,
 				90578C642358A80D00F49180 /* PlayerPresentingAnimationController.swift in Sources */,
 				9039B2DE23588AC60092B8AA /* PlayerViewModel.swift in Sources */,
+				903DE2EF2361B35800A45D96 /* UISlider+ThumbImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

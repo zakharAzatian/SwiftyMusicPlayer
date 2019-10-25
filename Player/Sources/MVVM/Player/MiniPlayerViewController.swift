@@ -113,7 +113,11 @@ class MiniPlayerViewController: UIViewController {
     }
     
     private func presentPlayer() {
-        let vc = PlayerViewController()
+        guard let vc = PlayerViewController.initialize() else {
+            print("Can't init Player view controller from storyboard")
+            return
+        }
+        
         let transitionDelegate = PlayerTransitioningDelegate(miniPlayerController: self)
         vc.transitioningDelegate = transitionDelegate
         vc.modalPresentationStyle = .custom
