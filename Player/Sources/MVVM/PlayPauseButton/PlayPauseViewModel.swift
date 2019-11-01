@@ -11,22 +11,18 @@ import RxSwift
 import RxCocoa
 
 protocol PlayPauseViewModelType {
-    var isPlaying: Signal<Bool> { get }
-    var tapTrigger: PublishRelay<Void> { get }
+    // in
+    var isPlaying: PublishRelay<Bool> { get }
+    // out
     var image: Signal<UIImage> { get }
 }
 
 struct PlayPauseViewModel: PlayPauseViewModelType {
-    
-    let tapTrigger = PublishRelay<Void>()
-    let isPlaying: Signal<Bool>
+    let isPlaying = PublishRelay<Bool>()
     let image: Signal<UIImage>
     
     init() {
-        let startIsPlayingState = false
-        isPlaying = tapTrigger.scan(startIsPlayingState) { state, _ in
-            return !state
-        }.asSignal(onErrorSignalWith: .empty())
-        image = isPlaying.startWith(startIsPlayingState).map({ $0 ? Assets.icons.play : Assets.icons.pause })
+        let playingSignal = isPlaying.asSignal()
+        image = playingSignal.map({ $0 ? Assets.icons.pause : Assets.icons.play })
     }
 }

@@ -24,6 +24,7 @@ final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnima
         self.miniPlayerController = miniPlayerController
     }
     
+    // MARK: - Animated Transitioning Protocol Methods
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 0.7
     }
@@ -39,6 +40,7 @@ final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnima
         animate(presentingController, presentedController, transitionContext)
     }
     
+    // MARK: - Custom Methods
     private func takeSnapshotsOfViews(presentingController: UIViewController) {
         miniPlayerController?.coverImageView.isHidden = true
         miniPlayerSnapshotView = miniPlayerController?.view.snapshotView(afterScreenUpdates: false) ?? UIView()

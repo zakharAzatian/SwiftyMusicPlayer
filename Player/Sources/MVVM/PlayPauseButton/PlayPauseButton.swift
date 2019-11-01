@@ -12,6 +12,10 @@ import RxCocoa
 
 class PlayPauseButton: UIButton {
     
+    var isPlaying: PublishRelay<Bool> {
+        return viewModel.isPlaying
+    }
+    
     private let viewModel: PlayPauseViewModelType = PlayPauseViewModel()
     private let disposeBag = DisposeBag()
     
@@ -22,11 +26,10 @@ class PlayPauseButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        commonInit(frame: frame)
+        commonInit()
     }
     
-    private func commonInit(frame: CGRect = .zero) {
-        rx.tap.bind(to: viewModel.tapTrigger).disposed(by: disposeBag)
+    private func commonInit() {
         viewModel.image.emit(to: rx.image()).disposed(by: disposeBag)
     }
 }

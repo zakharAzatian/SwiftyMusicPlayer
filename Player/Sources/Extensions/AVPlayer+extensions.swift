@@ -30,4 +30,10 @@ extension Reactive where Base: AVPlayer {
             player.pause()
         }
     }
+    
+    var seek: Binder<CMTime> {
+        return Binder(base) { player, time in
+            player.seek(to: time)
+        }
+    }
 }

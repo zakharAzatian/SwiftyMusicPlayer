@@ -14,28 +14,38 @@ import RxCocoa
 
 class MiniPlayerViewController: UIViewController {
     
+    private let nameLabel = UILabel()
     private let blurBackgroundView: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .light)
         let view = UIVisualEffectView(effect: blur)
         return view
     }()
-    
-    private let playPauseButton = PlayPauseButton()
-    private let nameLabel = UILabel()
-    private let disposeBag = DisposeBag()
-    
+
     private let selectedColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
-     
     private var isSelected = false {
         didSet {
             view.backgroundColor = isSelected ? selectedColor : .clear
         }
     }
     
+    private var player: PlayerType
+    
+    let playPauseButton = PlayPauseButton()
+    let disposeBag = DisposeBag()
+   
     let coverImageView = UIImageView()
     let cornerRadius: CGFloat = 3.0
     let coverImageViewContentMode: UIImageView.ContentMode = .scaleAspectFill
     var coverImage: UIImage = UIImage(named: "test")! // Test image
+    
+    init(player: PlayerType) {
+        self.player = player
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,17 +56,24 @@ class MiniPlayerViewController: UIViewController {
     }
     
     @discardableResult
-    static func addMiniPlayerTo(viewController: UIViewController) -> MiniPlayerViewController {
-        let player = MiniPlayerViewController()
-        viewController.addChild(player)
-        viewController.view.addSubview(player.view)
-        player.didMove(toParent: viewController)
+    static func addMiniPlayerTo(viewController: UIViewController, songURL: URL) -> MiniPlayerViewController {
+        let player = Player()
+        let playerController = MiniPlayerViewController(player: player)
+        viewController.addChild(playerController)
+        viewController.view.addSubview(playerController.view)
+        playerController.didMove(toParent: viewController)
     
-        player.view.fillHorizontally(in: viewController.view)
-        player.view.setBottom(to: viewController.view, toSafeArea: true)
-        player.view.setHeight(64)
+        // Constaints
+        playerController.view.fillHorizontally(in: viewController.view)
+        playerController.view.setBottom(to: viewController.view, toSafeArea: true)
+        playerController.view.setHeight(64)
+         
+        // Player Configuration
+        player.startPlayTrack.accept(songURL)
+        player.isPlaying.bind(to: playerController.playPauseButton.isPlaying).disposed(by: playerController.disposeBag)
+        playerController.player = player
         
-        return player
+        return playerController
     }
     
     private func setupViews() {
@@ -121,6 +138,7 @@ class MiniPlayerViewController: UIViewController {
         let transitionDelegate = PlayerTransitioningDelegate(miniPlayerController: self)
         vc.transitioningDelegate = transitionDelegate
         vc.modalPresentationStyle = .custom
+        vc.setupViewModel(with: player)
         parent?.present(vc, animated: true, completion: { [weak self] in
             self?.isSelected = false
         })

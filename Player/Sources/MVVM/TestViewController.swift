@@ -23,8 +23,8 @@ class TestViewController: UIViewController {
         view.addSubview(button)
         button.fill(in: view)
         button.addTarget(self, action: #selector(tapped), for: .touchUpInside)
-        
-        MiniPlayerViewController.addMiniPlayerTo(viewController: self)
+        let url = Bundle.main.url(forResource: "piano", withExtension: "mp3")!
+        MiniPlayerViewController.addMiniPlayerTo(viewController: self, songURL: url)
     }
     
     override func viewDidAppear(_ animated: Bool) {
