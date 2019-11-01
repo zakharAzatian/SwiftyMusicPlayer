@@ -40,13 +40,13 @@ class PlayerViewModel: PlayerViewModelType {
     private let disposeBag = DisposeBag()
     private let player = Player()
     private let seekTime: Signal<CMTime>
-
+    
     init(player: PlayerType) {
-        let seekingCurrentTime = Observable<(String, Bool)>.combineLatest(player.duration, timeLineTrigger, timeLineIsMovingByUser, resultSelector: { duration, timelineValue, isMoving in
+        let seekingCurrentTime = Observable<String>.combineLatest(player.duration, timeLineTrigger, resultSelector: { duration, timelineValue in
             let seconds = duration.seconds * Double(timelineValue)
             let time = CMTime(seconds: seconds, preferredTimescale: 1000)
-            return (time.timeLineString, isMoving)
-        }).filter({ $0.1 }).map{ $0.0 }.asSignal(onErrorSignalWith: .empty())
+            return time.timeLineString
+        }).withLatestFrom(timeLineIsMovingByUser) { ($0, $1) }.filter({ $0.1 }).map{ $0.0 }.asSignal(onErrorSignalWith: .empty())
         
         isPlaying = player.isPlaying.asSignal()
         currentTime = .merge(
@@ -55,25 +55,20 @@ class PlayerViewModel: PlayerViewModelType {
         )
         duration = player.duration.map({ $0.timeLineString }).asSignal(onErrorSignalWith: .empty())
         
-        timeLineValue = Signal<(Float, Bool)>.combineLatest(
+        timeLineValue = Signal<Float>.combineLatest(
             player.duration.asSignal(onErrorSignalWith: .empty()),
             player.currentTime,
-            timeLineIsMovingByUser.delay(.milliseconds(100), scheduler: MainScheduler.instance).asSignal(onErrorSignalWith: .empty()),
-            resultSelector: { duration, currentTime, isMoving in
-                let value = Float(currentTime.seconds / duration.seconds)
-                return (value, isMoving)
-        }).filter({ !$0.1 }).map{ $0.0 }
+            resultSelector: { duration, currentTime in
+                return Float(currentTime.seconds / duration.seconds)
+        }).withLatestFrom(timeLineIsMovingByUser.asSignal(onErrorSignalWith: .empty()), resultSelector: { ($0, $1) }).filter({ !$0.1 }).map({ $0.0 })
         
-        seekTime = Signal<(CMTime, Bool)>.combineLatest(
+        seekTime = Signal<CMTime>.combineLatest(
             player.duration.asSignal(onErrorSignalWith: .empty()),
             timeLineTrigger.asSignal().skip(1), // We skip 1 becase Slider.rx.value emits start value 0.0, when view model inits, we don't need it
-            timeLineIsMovingByUser.asSignal(onErrorSignalWith: .empty()),
-            resultSelector: { duration, timelineValue, isMoving in
+            resultSelector: { duration, timelineValue in
                 let seconds = duration.seconds * Double(timelineValue)
-                let time = CMTime(seconds: seconds, preferredTimescale: 1000)
-                return (time, isMoving)
-        }).filter({ !$0.1 }).map{ $0.0 }
-        
+                return CMTime(seconds: seconds, preferredTimescale: 1000)
+        }).withLatestFrom(timeLineIsMovingByUser.asSignal(onErrorSignalWith: .empty()), resultSelector: { ($0, $1) }).filter({ $0.1 }).map{ $0.0 }
 
         seekTime.emit(to: player.seekTime).disposed(by: disposeBag)
         playTrigger.bind(to: player.playTrigger).disposed(by: disposeBag)
