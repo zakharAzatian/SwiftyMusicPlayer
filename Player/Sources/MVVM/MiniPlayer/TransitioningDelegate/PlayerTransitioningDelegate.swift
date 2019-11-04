@@ -23,4 +23,8 @@ final class PlayerTransitioningDelegate: NSObject, UIViewControllerTransitioning
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return PlayerPresentingAnimationController(miniPlayerController: miniPlayerController)
     }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return PlayerDismissingAnimationController()
+    }
 }

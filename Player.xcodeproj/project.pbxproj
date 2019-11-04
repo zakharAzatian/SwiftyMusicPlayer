@@ -12,6 +12,7 @@
 		8A4D0CD123682BD000CB83DF /* Rx+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4D0CD023682BD000CB83DF /* Rx+extensions.swift */; };
 		8A4D0CD323683F8C00CB83DF /* CMTime+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4D0CD223683F8C00CB83DF /* CMTime+extensions.swift */; };
 		8A59ABCC236B1D3B006DEEA6 /* TimeLineSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A59ABCB236B1D3B006DEEA6 /* TimeLineSlider.swift */; };
+		8AA5285E236C718A00886458 /* PlayerDismissingAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA5285D236C718A00886458 /* PlayerDismissingAnimationController.swift */; };
 		9039B2CF23588AC60092B8AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9039B2AF23588AC60092B8AA /* Assets.xcassets */; };
 		9039B2D023588AC60092B8AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9039B2B023588AC60092B8AA /* LaunchScreen.storyboard */; };
 		9039B2D123588AC60092B8AA /* piano.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9039B2B223588AC60092B8AA /* piano.mp3 */; };
@@ -54,6 +55,7 @@
 		8A4D0CD023682BD000CB83DF /* Rx+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+extensions.swift"; sourceTree = "<group>"; };
 		8A4D0CD223683F8C00CB83DF /* CMTime+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMTime+extensions.swift"; sourceTree = "<group>"; };
 		8A59ABCB236B1D3B006DEEA6 /* TimeLineSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineSlider.swift; sourceTree = "<group>"; };
+		8AA5285D236C718A00886458 /* PlayerDismissingAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDismissingAnimationController.swift; sourceTree = "<group>"; };
 		9039B2AF23588AC60092B8AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9039B2B123588AC60092B8AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9039B2B223588AC60092B8AA /* piano.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = piano.mp3; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				9039B2E5235891F70092B8AA /* PlayerTransitioningDelegate.swift */,
 				9039B2E8235893DA0092B8AA /* PlayerPresentationController.swift */,
 				90578C632358A80D00F49180 /* PlayerPresentingAnimationController.swift */,
+				8AA5285D236C718A00886458 /* PlayerDismissingAnimationController.swift */,
 			);
 			path = TransitioningDelegate;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 			files = (
 				9039B2E9235893DA0092B8AA /* PlayerPresentationController.swift in Sources */,
 				8A4D0CD123682BD000CB83DF /* Rx+extensions.swift in Sources */,
+				8AA5285E236C718A00886458 /* PlayerDismissingAnimationController.swift in Sources */,
 				9039B2DC23588AC60092B8AA /* TestViewController.swift in Sources */,
 				8A4D0CD323683F8C00CB83DF /* CMTime+extensions.swift in Sources */,
 				9039B2D823588AC60092B8AA /* AppDelegate.swift in Sources */,
