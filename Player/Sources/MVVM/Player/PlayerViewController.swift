@@ -8,6 +8,7 @@
 
 import AVFoundation
 import UIKit
+import AVKit
 import MediaPlayer
 import RxSwift
 import RxCocoa
@@ -43,7 +44,7 @@ class PlayerViewController: UIViewController {
     }
     
     private func setupVolumeSlider() {
-        volumeView.showsVolumeSlider = true
+        volumeView.showsRouteButton = false
         volumeSliderContainer.addSubview(volumeView)
         volumeView.fill(in: volumeSliderContainer)
     }
