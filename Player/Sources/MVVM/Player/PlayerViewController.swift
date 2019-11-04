@@ -34,6 +34,13 @@ class PlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tap = UITapGestureRecognizer()
+        view.addGestureRecognizer(tap)
+        
+        tap.rx.event.subscribe(onNext: { _ in
+            self.dismiss(animated: true)
+        })
+        
         setupTargetToForTimeLineSlider()
         setupVolumeSlider()
         bindViewModel()

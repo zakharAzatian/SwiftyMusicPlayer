@@ -1,3 +1,4 @@
+
 //
 //  MiniPlayerViewController.swift
 //  Player
@@ -14,32 +15,31 @@ import RxCocoa
 
 class MiniPlayerViewController: UIViewController {
     
-    private let nameLabel = UILabel()
+    // MARK: - UI Elements
     private let blurBackgroundView: UIVisualEffectView = {
         let blur = UIBlurEffect(style: .light)
         let view = UIVisualEffectView(effect: blur)
         return view
     }()
-
-    private let selectedColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
-    private var isSelected = false {
-        didSet {
-            view.backgroundColor = isSelected ? selectedColor : .clear
-        }
-    }
     
-    private var player: PlayerType
+    private let nameLabel = UILabel()
+    private let longTap = UILongPressGestureRecognizer()
     
     let playPauseButton = PlayPauseButton()
-    let disposeBag = DisposeBag()
-   
     let coverImageView = UIImageView()
+
+    // MARK: - Other properties
+    private let viewModel: MiniPlayerViewModelType
+    
+    let disposeBag = DisposeBag()
+    
     let cornerRadius: CGFloat = 3.0
     let coverImageViewContentMode: UIImageView.ContentMode = .scaleAspectFill
     var coverImage: UIImage = UIImage(named: "test")! // Test image
     
+    // MARK: - Life cycle methods
     init(player: PlayerType) {
-        self.player = player
+        viewModel = MiniPlayerViewModel(player)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -53,27 +53,15 @@ class MiniPlayerViewController: UIViewController {
         setupConstraints()
         configureViews()
         setupGestureRecognizers()
+        bindViewModel()
     }
     
-    @discardableResult
-    static func addMiniPlayerTo(viewController: UIViewController, songURL: URL) -> MiniPlayerViewController {
-        let player = Player()
-        let playerController = MiniPlayerViewController(player: player)
-        viewController.addChild(playerController)
-        viewController.view.addSubview(playerController.view)
-        playerController.didMove(toParent: viewController)
-    
-        // Constaints
-        playerController.view.fillHorizontally(in: viewController.view)
-        playerController.view.setBottom(to: viewController.view, toSafeArea: true)
-        playerController.view.setHeight(64)
-         
-        // Player Configuration
-        player.startPlayTrack.accept(songURL)
-        player.isPlaying.bind(to: playerController.playPauseButton.isPlaying).disposed(by: playerController.disposeBag)
-        playerController.player = player
-        
-        return playerController
+    // MARK: - Other Methods
+    private func bindViewModel() {
+        longTap.rx.event.map({ $0.state }).bind(to: viewModel.longTapTrigger).disposed(by: disposeBag)
+        viewModel.backgroundColor.emit(to: view.rx.backgroundColor).disposed(by: disposeBag)
+        viewModel.isPlaying.emit(to: playPauseButton.isPlaying).disposed(by: disposeBag)
+        viewModel.presentPlayer.map({ self }).emit(to: viewModel.presentPlayerFromTrigger).disposed(by: disposeBag)
     }
     
     private func setupViews() {
@@ -107,41 +95,9 @@ class MiniPlayerViewController: UIViewController {
     }
     
     private func setupGestureRecognizers() {
-        let longTap = UILongPressGestureRecognizer()
         longTap.minimumPressDuration = 0.0
         longTap.delegate = self
-        
         view.addGestureRecognizer(longTap)
-        
-        longTap.rx.event.subscribe(onNext: { gesture in
-            self.handleLongTapState(gesture.state)
-        }).disposed(by: disposeBag)
-    }
-    
-    private func handleLongTapState(_ state: UIGestureRecognizer.State) {
-        switch state {
-        case .began, .changed:
-            isSelected = true
-        case .ended:
-            presentPlayer()
-        default:
-            isSelected = false
-        }
-    }
-    
-    private func presentPlayer() {
-        guard let vc = PlayerViewController.initialize() else {
-            print("Can't init Player view controller from storyboard")
-            return
-        }
-        
-        let transitionDelegate = PlayerTransitioningDelegate(miniPlayerController: self)
-        vc.transitioningDelegate = transitionDelegate
-        vc.modalPresentationStyle = .custom
-        vc.setupViewModel(with: player)
-        parent?.present(vc, animated: true, completion: { [weak self] in
-            self?.isSelected = false
-        })
     }
 }
 

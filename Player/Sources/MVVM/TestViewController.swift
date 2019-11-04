@@ -13,7 +13,7 @@ class TestViewController: UIViewController {
     let button = UIButton()
     
     override var preferredStatusBarStyle: UIStatusBarStyle { return .lightContent }
-    var cont: MiniPlayerViewController?
+    let player = SwiftyMusicPlayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,7 @@ class TestViewController: UIViewController {
         button.fill(in: view)
         button.addTarget(self, action: #selector(tapped), for: .touchUpInside)
         let url = Bundle.main.url(forResource: "piano", withExtension: "mp3")!
-        MiniPlayerViewController.addMiniPlayerTo(viewController: self, songURL: url)
+        player.addMiniPlayerTo(viewController: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
