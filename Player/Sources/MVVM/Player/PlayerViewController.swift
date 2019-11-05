@@ -20,11 +20,21 @@ class PlayerViewController: UIViewController {
     @IBOutlet private weak var timeLineSlider: TimeLineSlider!
     @IBOutlet private weak var volumeSliderContainer: UIView!
     
+    @IBOutlet weak var coverImageView: UIImageView!
+    
     private let volumeView = MPVolumeView()
     
     private let disposeBag = DisposeBag()
     private var viewModel: PlayerViewModelType?
     
+    var cover: UIImage?
+    let coverCornerRadius: CGFloat = 10.0
+    var coverImageFrame: CGRect {
+        let size = view.bounds.width * 0.7
+        let origin = CGPoint(x: (view.bounds.width - size) / 2, y: coverImageView.convert(coverImageView.frame.origin, to: view.window).y)
+        return CGRect(origin: origin, size: CGSize(width: size, height: size))
+    }
+
     static func initialize() -> Self? {
         let storyboard = UIStoryboard(name: String(describing: self), bundle: Bundle(for: self))
         return storyboard.instantiateInitialViewController()
@@ -39,11 +49,22 @@ class PlayerViewController: UIViewController {
         
         tap.rx.event.subscribe(onNext: { _ in
             self.dismiss(animated: true)
-        })
+        }).disposed(by: disposeBag)
         
+        coverImageView.image = cover
         setupTargetToForTimeLineSlider()
         setupVolumeSlider()
         bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        coverImageView.isHidden = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        coverImageView.isHidden = false
     }
     
     func setupViewModel(with player: PlayerType) {

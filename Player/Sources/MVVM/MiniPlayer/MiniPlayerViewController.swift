@@ -29,13 +29,12 @@ class MiniPlayerViewController: UIViewController {
     let coverImageView = UIImageView()
 
     // MARK: - Other properties
-    private let viewModel: MiniPlayerViewModelType
+    let viewModel: MiniPlayerViewModelType
     
     let disposeBag = DisposeBag()
     
     let cornerRadius: CGFloat = 3.0
     let coverImageViewContentMode: UIImageView.ContentMode = .scaleAspectFill
-    var coverImage: UIImage = UIImage(named: "test")! // Test image
     
     // MARK: - Life cycle methods
     init(player: PlayerType) {
@@ -62,6 +61,7 @@ class MiniPlayerViewController: UIViewController {
         viewModel.backgroundColor.emit(to: view.rx.backgroundColor).disposed(by: disposeBag)
         viewModel.isPlaying.emit(to: playPauseButton.isPlaying).disposed(by: disposeBag)
         viewModel.presentPlayer.map({ self }).emit(to: viewModel.presentPlayerFromTrigger).disposed(by: disposeBag)
+        viewModel.coverImage.bind(to: coverImageView.rx.image).disposed(by: disposeBag)
     }
     
     private func setupViews() {
@@ -91,7 +91,6 @@ class MiniPlayerViewController: UIViewController {
         coverImageView.contentMode = coverImageViewContentMode
         coverImageView.layer.cornerRadius = cornerRadius
         coverImageView.layer.masksToBounds = true
-        coverImageView.image = coverImage
     }
     
     private func setupGestureRecognizers() {

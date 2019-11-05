@@ -19,6 +19,7 @@ protocol MiniPlayerViewModelType {
     var backgroundColor: Signal<UIColor> { get }
     var isPlaying: Signal<Bool> { get }
     var presentPlayer: Signal<Void> { get }
+    var coverImage: BehaviorRelay<UIImage> { get }
 }
 
 final class MiniPlayerViewModel: MiniPlayerViewModelType {
@@ -28,6 +29,7 @@ final class MiniPlayerViewModel: MiniPlayerViewModelType {
     let backgroundColor: Signal<UIColor>
     let isPlaying: Signal<Bool>
     let presentPlayer: Signal<Void>
+    let coverImage: BehaviorRelay<UIImage>
     
     private let isSelected: Signal<Bool>
     private let player: PlayerType
@@ -36,8 +38,11 @@ final class MiniPlayerViewModel: MiniPlayerViewModelType {
     
     init(_ player: PlayerType) {
         let selectedColor = UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1)
+        let cover = UIImage(named: "test")! // for testing
         
         self.player = player
+        
+        coverImage = BehaviorRelay(value: cover)
         isSelected = longTapTrigger.map({ return $0 == .began || $0 == .changed }).asSignal(onErrorSignalWith: .empty())
         backgroundColor = isSelected.map({ $0 ? selectedColor : .clear })
         isPlaying = player.isPlaying.asSignal(onErrorSignalWith: .empty())
@@ -52,6 +57,7 @@ final class MiniPlayerViewModel: MiniPlayerViewModelType {
             let transitionDelegate = PlayerTransitioningDelegate(miniPlayerController: controller)
             vc.transitioningDelegate = transitionDelegate
             vc.modalPresentationStyle = .custom
+            vc.cover = cover
             controller.present(vc, animated: true)
         }
         

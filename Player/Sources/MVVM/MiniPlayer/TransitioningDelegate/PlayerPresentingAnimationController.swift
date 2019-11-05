@@ -43,7 +43,7 @@ final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnima
     // MARK: - Custom Methods
     private func takeSnapshotsOfViews(presentingController: UIViewController) {
         miniPlayerController?.coverImageView.isHidden = true
-        miniPlayerSnapshotView = miniPlayerController?.view.snapshotView(afterScreenUpdates: false) ?? UIView()
+        miniPlayerSnapshotView = miniPlayerController?.view.snapshotView(afterScreenUpdates: true) ?? UIView()
         
         if let tabBarController = presentingController as? UITabBarController {
             tabBarController.tabBar.isTranslucent = false
@@ -70,13 +70,16 @@ final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnima
         if let miniPlayer = miniPlayerController {
             presentedView.frame.origin.y = containerView.bounds.height - miniPlayer.view.bounds.height - getBottomInset(in: presentingController)
             miniPlayerSnapshotView.frame = miniPlayer.view.frame
-    
+            
             coverImageView.layer.masksToBounds = true
-            coverImageView.layer.cornerRadius = miniPlayer.cornerRadius
-            coverImageView.image = miniPlayerController?.coverImage
+            coverImageView.image = miniPlayerController?.viewModel.coverImage.value
             coverImageView.contentMode = .scaleAspectFill
             coverImageView.frame = miniPlayer.coverImageView.convert(coverImageView.bounds, to: presentingController.view)
             coverImageView.frame.size = miniPlayer.coverImageView.bounds.size
+        }
+        
+        if let playerController = presentedController as? PlayerViewController {
+            coverImageView.layer.cornerRadius = playerController.coverCornerRadius
         }
         
         if let tabBarController = presentingController as? UITabBarController {
@@ -107,7 +110,11 @@ final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnima
         func mainAnimation() {
             let finalFrame = transitionContext.finalFrame(for: presentedViewController)
             presentedViewController.view.frame = finalFrame
-            coverImageView.frame.origin = presentedViewController.view.center
+            
+            if let playerController = presentedViewController as? PlayerViewController {
+                coverImageView.frame = presentingViewController.view.convert(playerController.coverImageFrame, to: presentingViewController.view)
+            }
+            
             miniPlayerSnapshotView.frame.origin = finalFrame.origin
             tabBarSnapshotView.frame.origin.y = finalFrame.maxY
         }
@@ -117,7 +124,7 @@ final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnima
             miniPlayerSnapshotView.removeFromSuperview()
             
             miniPlayerController?.coverImageView.isHidden = false
-            if let tabBarController = presentingViewController as? UITabBarController {
+            if let tabBarController = presentedViewController as? UITabBarController {
                 tabBarController.tabBar.isTranslucent = true
             }
             
