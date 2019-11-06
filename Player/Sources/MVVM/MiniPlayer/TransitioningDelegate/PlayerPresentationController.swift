@@ -13,6 +13,7 @@ class PlayerPresentationConroller: UIPresentationController {
     private var snapshotView: UIView?
     private let snaphotViewContainer = UIView()
     private let backgroundView = UIView()
+    private let gradeView = UIView()
     
     private let cornerRadius: CGFloat = 10.0
     private let duration: Double = 0.6
@@ -26,8 +27,10 @@ class PlayerPresentationConroller: UIPresentationController {
         
         containerView.addSubview(backgroundView)
         containerView.addSubview(snaphotViewContainer)
+        containerView.addSubview(gradeView)
         
         snaphotViewContainer.frame = presentingViewController.view.frame
+        gradeView.frame = window.frame
         backgroundView.fill(in: window, toSafeArea: false)
 
         snapshotView = presentingViewController.view.snapshotView(afterScreenUpdates: false)
@@ -42,7 +45,9 @@ class PlayerPresentationConroller: UIPresentationController {
         presentedView?.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         
         presentingViewController.transitionCoordinator?.animate(alongsideTransition: { [weak self] _ in
-            self?.snapshotView?.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
+            guard let self = self else { return }
+            self.gradeView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+            self.snapshotView?.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
         }, completion: nil)
     }
     
