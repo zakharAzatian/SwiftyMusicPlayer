@@ -15,7 +15,5 @@ struct Assets {
         static let pause = UIImage(named: "ic_pause")!
         static let prev = UIImage(named: "ic_prev")!
         static let next = UIImage(named: "ic_next")!
-        static let timelineThumb = UIImage(named: "timelineThumb")!
-        static let bigTimelineThumb = UIImage(named: "bigTimelineThumb")!
     }
 }
