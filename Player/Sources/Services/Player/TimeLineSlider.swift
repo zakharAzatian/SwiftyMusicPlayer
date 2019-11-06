@@ -45,7 +45,6 @@ class TimeLineSlider: UISlider {
         let trackRect = self.trackRect(forBounds: bounds)
         let thumbRect = self.thumbRect(forBounds: bounds, trackRect: trackRect, value: value)
         
-        trackView.backgroundColor = .red
         addSubview(trackView)
         trackView.frame = trackRect
         trackView.frame.size.width = thumbRect.midX - trackView.frame.minX
