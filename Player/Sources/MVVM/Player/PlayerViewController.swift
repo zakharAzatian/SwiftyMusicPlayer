@@ -46,9 +46,9 @@ class PlayerViewController: UIViewController {
         super.viewDidLoad()
         let tap = UITapGestureRecognizer()
         view.addGestureRecognizer(tap)
-        
+
         tap.rx.event.subscribe(onNext: { _ in
-            self.dismiss(animated: true)
+//            self.dismiss(animated: true)
         }).disposed(by: disposeBag)
         
         coverImageView.image = cover

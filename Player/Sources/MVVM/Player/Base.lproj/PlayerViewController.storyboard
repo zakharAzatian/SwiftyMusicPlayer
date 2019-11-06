@@ -29,7 +29,7 @@
                                         <rect key="frame" x="0.0" y="30" width="375" height="262.5"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j4G-Kf-gdE">
-                                                <rect key="frame" x="56.5" y="0.0" width="262.5" height="262.5"/>
+                                                <rect key="frame" x="56" y="0.0" width="262.5" height="262.5"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="j4G-Kf-gdE" secondAttribute="height" multiplier="1:1" id="8JX-mm-di7"/>
@@ -110,6 +110,9 @@
                                                         <subviews>
                                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="wdX-n5-Rep" customClass="TimeLineSlider" customModule="Player" customModuleProvider="target">
                                                                 <rect key="frame" x="-2" y="0.0" width="304" height="31"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="30" id="jLL-0Y-Xkw"/>
+                                                                </constraints>
                                                                 <color key="minimumTrackTintColor" red="0.1764705882" green="0.70980392160000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <color key="maximumTrackTintColor" red="0.14117647059999999" green="0.18823529410000001" blue="0.20392156859999999" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <userDefinedRuntimeAttributes>
@@ -251,6 +254,6 @@
         <image name="ic_next" width="40" height="23"/>
         <image name="ic_pause" width="36" height="36"/>
         <image name="ic_prev" width="40" height="23"/>
-        <image name="timelineThumb" width="26" height="26"/>
+        <image name="timelineThumb" width="8" height="8"/>
     </resources>
 </document>

@@ -17,7 +17,6 @@ class TestViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = #colorLiteral(red: 0.9303606153, green: 0.9260264039, blue: 0.9358182549, alpha: 1)
         
         view.addSubview(button)

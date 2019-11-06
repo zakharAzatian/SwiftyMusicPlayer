@@ -60,7 +60,7 @@ class PlayerViewModel: PlayerViewModelType {
             player.currentTime,
             resultSelector: { duration, currentTime in
                 return Float(currentTime.seconds / duration.seconds)
-        }).withLatestFrom(timeLineIsMovingByUser.asSignal(onErrorSignalWith: .empty()), resultSelector: { ($0, $1) }).filter({ !$0.1 }).map({ $0.0 })
+            }).withLatestFrom(timeLineIsMovingByUser.asSignal(onErrorSignalWith: .empty()), resultSelector: { ($0, $1) }).filter({ !$0.1 }).map({ $0.0 }).debug("!!!")
         
         seekTime = Signal<CMTime>.combineLatest(
             player.duration.asSignal(onErrorSignalWith: .empty()),
