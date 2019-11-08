@@ -9,15 +9,10 @@
 import UIKit
 
 class TimeLineSlider: UISlider {
-
     private let thumbDiameter: CGFloat = 7
-    
     private let thumbColor = UIColor(red: 0.263, green: 0.733, blue: 0.949, alpha: 1)
-    
     private let selectedThumbColor = UIColor(red: 0.263, green: 0.733, blue: 0.949, alpha: 1)
-    
     private let thumbView = UIView()
-    
     private let trackView = UIView()
     
     override init(frame: CGRect) {

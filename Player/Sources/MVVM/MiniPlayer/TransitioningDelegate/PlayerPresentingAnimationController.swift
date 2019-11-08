@@ -9,7 +9,6 @@
 import UIKit
 
 final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
-    
     private weak var miniPlayerController: MiniPlayerViewController?
     
     // MARK: - Views for animation
@@ -18,7 +17,6 @@ final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnima
     
     // MARK: - Snapshots Views
     private var miniPlayerSnapshotView = UIView()
-    private var tabBarSnapshotView = UIView()
     
     init(miniPlayerController: MiniPlayerViewController?) {
         self.miniPlayerController = miniPlayerController
@@ -44,18 +42,12 @@ final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnima
     private func takeSnapshotsOfViews(presentingController: UIViewController) {
         miniPlayerController?.coverImageView.isHidden = true
         miniPlayerSnapshotView = miniPlayerController?.view.snapshotView(afterScreenUpdates: true) ?? UIView()
-        
-        if let tabBarController = presentingController as? UITabBarController {
-            tabBarController.tabBar.isTranslucent = false
-            tabBarSnapshotView = tabBarController.tabBar.snapshotView(afterScreenUpdates: false) ?? UIView()
-        }
     }
     
     private func setupViews(_ presentedController: UIViewController, _ containerView: UIView) {
-        containerView.addSubview(presentedController.view)
-        containerView.addSubview(miniPlayerSnapshotView)
-        containerView.addSubview(coverImageView)
-        containerView.addSubview(tabBarSnapshotView)
+        containerView.insertSubview(presentedController.view, at: 3) // insert above tab bar snap shot
+        containerView.insertSubview(miniPlayerSnapshotView, aboveSubview: presentedController.view)
+        containerView.insertSubview(coverImageView, aboveSubview: miniPlayerSnapshotView)
         presentedController.view.addSubview(fadeView)
     }
     
@@ -80,10 +72,6 @@ final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnima
         
         if let playerController = presentedController as? PlayerViewController {
             coverImageView.layer.cornerRadius = playerController.coverCornerRadius
-        }
-        
-        if let tabBarController = presentingController as? UITabBarController {
-            tabBarSnapshotView.frame = tabBarController.tabBar.frame
         }
     }
     
@@ -116,7 +104,6 @@ final class PlayerPresentingAnimationController: NSObject, UIViewControllerAnima
             }
             
             miniPlayerSnapshotView.frame.origin = finalFrame.origin
-            tabBarSnapshotView.frame.origin.y = finalFrame.maxY
         }
         
         func mainAnimationCompletion(_ finished: Bool) {

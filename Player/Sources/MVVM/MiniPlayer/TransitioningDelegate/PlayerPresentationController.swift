@@ -10,46 +10,31 @@ import UIKit
 
 class PlayerPresentationConroller: UIPresentationController {
     
-    private let snaphotViewContainer = UIView()
+    // MARK: - Properties
     private let backgroundView = UIView()
     private let gradeView = UIView()
     private var tabBarSnapshotView = UIView()
-    private var snapshotView: UIView?
+    private var presentingSnapshotView = UIView()
     
     private lazy var pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
     
     private let cornerRadius: CGFloat = 10.0
     private let duration: Double = 0.6
-    
+     
+    // MARK: - Presentation Controller Methods
     override func presentationTransitionWillBegin() {
         super.presentationTransitionWillBegin()
         guard let containerView = self.containerView, let window = containerView.window else { return }
-
-        backgroundView.backgroundColor = UIColor.black
         
-        containerView.addSubview(backgroundView)
-        containerView.addSubview(snaphotViewContainer)
-        containerView.addSubview(gradeView)
-        
-        snaphotViewContainer.frame = presentingViewController.view.frame
-        gradeView.frame = window.frame
-        backgroundView.fill(in: window, toSafeArea: false)
-
-        snapshotView = presentingViewController.view.snapshotView(afterScreenUpdates: false)
-        
-        if let snapshotView = snapshotView {
-            snaphotViewContainer.addSubview(snapshotView)
-        }
-        
-        addCornerRadiusAnimation(for: snapshotView, cornerRadius: cornerRadius, duration: duration)
-        addCornerRadiusAnimation(for: presentedView, cornerRadius: cornerRadius, duration: duration)
-        snapshotView?.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        presentedView?.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        takeSnapshotsForPresentation()
+        setupViews(in: containerView)
+        configureViewsForPresentation(window: window)
         
         presentingViewController.transitionCoordinator?.animate(alongsideTransition: { [weak self] _ in
             guard let self = self else { return }
             self.gradeView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-            self.snapshotView?.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
+            self.presentingSnapshotView.transform = CGAffineTransform.identity.scaledBy(x: 0.9, y: 0.9)
+            self.tabBarSnapshotView.frame.origin.y = self.presentingViewController.view.frame.maxY
         }, completion: nil)
     }
     
@@ -58,24 +43,15 @@ class PlayerPresentationConroller: UIPresentationController {
         guard let containerView = containerView else { return }
         
         var tabBarFrame = CGRect.zero
-        if let tabBarController = presentingViewController as? UITabBarController, let tabBarSnapshot = tabBarController.tabBar.snapshotView(afterScreenUpdates: false) {
-            let topLine = UIView() // top line for tab bar
-            topLine.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-            tabBarSnapshotView = tabBarSnapshot
-            let size = tabBarController.tabBar.frame.size
-            tabBarSnapshotView.frame.size = size
-            tabBarSnapshotView.frame.origin = CGPoint(x: 0, y: tabBarController.view.frame.maxY)
-            topLine.frame = CGRect(origin: .zero, size: CGSize(width: size.width, height: 0.5))
-            tabBarFrame = tabBarController.tabBar.frame
-            containerView.addSubview(tabBarSnapshotView)
-            tabBarSnapshotView.addSubview(topLine)
-            tabBarSnapshotView.backgroundColor = .blue
+        if let tabBarController = presentingViewController as? UITabBarController {
+            let tabBar = tabBarController.tabBar
+            tabBarFrame = tabBar.convert(tabBar.bounds, to: presentingViewController.view)
         }
         
         presentingViewController.transitionCoordinator?.animate(alongsideTransition: { _ in
             self.gradeView.alpha = 0.0
             self.tabBarSnapshotView.frame = tabBarFrame
-            self.snapshotView?.transform = .identity
+            self.presentingSnapshotView.transform = .identity
         }, completion: nil)
     }
     
@@ -92,6 +68,52 @@ class PlayerPresentationConroller: UIPresentationController {
         let size = CGSize(width: presentingViewFrame.width, height: presentingViewFrame.height * 0.93)
         return CGRect(origin: .init(x: .zero, y: presentingViewFrame.height - size.height), size: size)
     }
+    
+    // MARK: - Custom Methods
+    private func setupViews(in container: UIView) {
+        container.addSubview(backgroundView)
+        container.addSubview(presentingSnapshotView)
+        container.addSubview(gradeView)
+        container.addSubview(tabBarSnapshotView)
+    }
+    
+    // MARK: - Presentaion Helper Methods
+    private func takeSnapshotsForPresentation() {
+        presentingSnapshotView = presentingViewController.view.snapshotView(afterScreenUpdates: false) ?? UIView()
+        if let tabBarController = presentingViewController as? UITabBarController {
+            tabBarSnapshotView = tabBarController.tabBar.snapshotView(afterScreenUpdates: false) ?? UIView()
+        }
+    }
+    
+    private func configureViewsForPresentation(window: UIWindow) {
+        configureTabBarSnapshotView()
+        backgroundView.backgroundColor = UIColor.black
+        
+        gradeView.frame = window.frame
+        backgroundView.fill(in: window, toSafeArea: false)
+        
+        addCornerRadiusAnimation(for: presentingSnapshotView, cornerRadius: cornerRadius, duration: duration)
+        addCornerRadiusAnimation(for: presentedView, cornerRadius: cornerRadius, duration: duration)
+        presentingSnapshotView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        presentedView?.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+    }
+    
+    private func configureTabBarSnapshotView() {
+        guard let tabBarController = presentingViewController as? UITabBarController else { return }
+        
+        let tabBar = tabBarController.tabBar
+        let size = tabBarController.tabBar.frame.size
+        let topLine = UIView() // top line for tab bar, because snpashot takes wihtout this line
+        
+        topLine.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        topLine.frame = CGRect(origin: .zero, size: CGSize(width: size.width, height: 0.5))
+        
+        tabBarSnapshotView.frame.size = size
+        tabBarSnapshotView.frame = tabBar.convert(tabBar.bounds, to: presentingViewController.view)
+        tabBarSnapshotView.addSubview(topLine)
+    }
+    
+    // MARK: Dismissing Helper Methods
     
     private func addCornerRadiusAnimation(for view: UIView?, cornerRadius: CGFloat, duration: CFTimeInterval) {
         guard let view = view else { return }
@@ -156,6 +178,7 @@ class PlayerPresentationConroller: UIPresentationController {
     }
 }
 
+// MARK: - Gesture Recognizer Delegate
 extension PlayerPresentationConroller: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         guard gestureRecognizer.isEqual(pan) else {
