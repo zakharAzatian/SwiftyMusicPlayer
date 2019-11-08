@@ -40,7 +40,6 @@ class PlayerPresentationConroller: UIPresentationController {
     
     override func dismissalTransitionWillBegin() {
         super.dismissalTransitionWillBegin()
-        guard let containerView = containerView else { return }
         
         var tabBarFrame = CGRect.zero
         if let tabBarController = presentingViewController as? UITabBarController {

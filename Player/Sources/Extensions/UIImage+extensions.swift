@@ -24,16 +24,18 @@ extension UIImage {
         //in the layer we add corner radius to make it circle and add shadow
         circle.layer.cornerRadius = edgeLen/2
         
+        var size = CGSize(width: edgeLen, height: edgeLen)
         if shadow {
             circle.layer.shadowColor = UIColor.gray.cgColor
             circle.layer.shadowOffset = .zero
             circle.layer.shadowRadius = 2
             circle.layer.shadowOpacity = 0.4
             circle.layer.masksToBounds = false
+            size = CGSize(width: edgeLen + 10, height: edgeLen + 10)
         }
         
         //we add circle to a view, that is bigger than circle so we have extra 10 points for the shadow
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: edgeLen + 10, height: edgeLen + 10))
+        let view = UIView(frame: CGRect(origin: .zero, size: size))
         view.backgroundColor = UIColor.clear
         view.addSubview(circle)
         
