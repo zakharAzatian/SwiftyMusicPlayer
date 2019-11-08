@@ -16,12 +16,6 @@ import RxCocoa
 class MiniPlayerViewController: UIViewController {
     
     // MARK: - UI Elements
-    private let blurBackgroundView: UIVisualEffectView = {
-        let blur = UIBlurEffect(style: .light)
-        let view = UIVisualEffectView(effect: blur)
-        return view
-    }()
-    
     private let nameLabel = UILabel()
     private let longTap = UILongPressGestureRecognizer()
     
@@ -32,7 +26,7 @@ class MiniPlayerViewController: UIViewController {
     let viewModel: MiniPlayerViewModelType
     
     let disposeBag = DisposeBag()
-    
+
     let cornerRadius: CGFloat = 3.0
     let coverImageViewContentMode: UIImageView.ContentMode = .scaleAspectFill
     
@@ -65,15 +59,12 @@ class MiniPlayerViewController: UIViewController {
     }
     
     private func setupViews() {
-        view.addSubview(blurBackgroundView)
         view.addSubview(playPauseButton)
         view.addSubview(coverImageView)
         view.addSubview(nameLabel)
     }
     
     private func setupConstraints() {
-        blurBackgroundView.fill(in: view, toSafeArea: false)
-        
         playPauseButton.fillVertically(in: view, toSafeArea: false)
         playPauseButton.setTrailing(to: view, -30)
         playPauseButton.setWidth(20)

@@ -20,6 +20,7 @@ class PlayerViewController: UIViewController {
     @IBOutlet private weak var timeLineSlider: TimeLineSlider!
     @IBOutlet private weak var volumeSliderContainer: UIView!
     
+    @IBOutlet weak var containerView: UIStackView!
     @IBOutlet weak var coverImageView: UIImageView!
     
     private let volumeView = MPVolumeView()
@@ -48,7 +49,7 @@ class PlayerViewController: UIViewController {
         view.addGestureRecognizer(tap)
 
         tap.rx.event.subscribe(onNext: { _ in
-//            self.dismiss(animated: true)
+            self.dismiss(animated: true)
         }).disposed(by: disposeBag)
         
         coverImageView.image = cover

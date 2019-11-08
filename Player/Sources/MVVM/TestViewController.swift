@@ -16,9 +16,7 @@ class TestViewController: UIViewController {
     let player = SwiftyMusicPlayer()
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = #colorLiteral(red: 0.9303606153, green: 0.9260264039, blue: 0.9358182549, alpha: 1)
-        
+        super.viewDidLoad()    
         view.addSubview(button)
         button.fill(in: view)
         button.addTarget(self, action: #selector(tapped), for: .touchUpInside)

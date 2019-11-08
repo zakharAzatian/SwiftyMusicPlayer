@@ -29,7 +29,7 @@
                                         <rect key="frame" x="0.0" y="30" width="375" height="262.5"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j4G-Kf-gdE">
-                                                <rect key="frame" x="56" y="0.0" width="262.5" height="262.5"/>
+                                                <rect key="frame" x="56.5" y="0.0" width="262.5" height="262.5"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="j4G-Kf-gdE" secondAttribute="height" multiplier="1:1" id="8JX-mm-di7"/>
@@ -236,6 +236,7 @@
                         <viewLayoutGuide key="safeArea" id="juk-N8-Eah"/>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="IJ7-7a-wnq" id="h6h-bU-wij"/>
                         <outlet property="coverImageView" destination="j4G-Kf-gdE" id="ump-Sq-Mxt"/>
                         <outlet property="currentTimeLabel" destination="FW0-tg-waK" id="m0z-tH-aPC"/>
                         <outlet property="durationLabel" destination="oMB-mC-acf" id="lKc-kA-GJ8"/>
