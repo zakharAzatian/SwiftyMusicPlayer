@@ -115,9 +115,6 @@
                                                                 </constraints>
                                                                 <color key="minimumTrackTintColor" red="0.1764705882" green="0.70980392160000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <color key="maximumTrackTintColor" red="0.14117647059999999" green="0.18823529410000001" blue="0.20392156859999999" alpha="0.10000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="image" keyPath="thumbImage" value="timelineThumb"/>
-                                                                </userDefinedRuntimeAttributes>
                                                             </slider>
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="s8b-TB-FjK">
                                                                 <rect key="frame" x="0.0" y="30" width="300" height="30"/>
@@ -255,6 +252,5 @@
         <image name="ic_next" width="40" height="23"/>
         <image name="ic_pause" width="36" height="36"/>
         <image name="ic_prev" width="40" height="23"/>
-        <image name="timelineThumb" width="8" height="8"/>
     </resources>
 </document>
