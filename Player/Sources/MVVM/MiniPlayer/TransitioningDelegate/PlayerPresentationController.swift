@@ -183,7 +183,12 @@ extension PlayerPresentationConroller: UIGestureRecognizerDelegate {
         guard gestureRecognizer.isEqual(pan) else {
             return false
         }
-        
+    
         return true
+    }
+    
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let targetView = gestureRecognizer.view else { return false }
+        return !targetView.containsActiveControls()
     }
 }

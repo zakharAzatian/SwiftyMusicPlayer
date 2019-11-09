@@ -18,6 +18,7 @@
 		8A4EF1A22372CB6F00FA0773 /* UIImage+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4EF1A12372CB6F00FA0773 /* UIImage+extensions.swift */; };
 		8A59ABCC236B1D3B006DEEA6 /* TimeLineSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A59ABCB236B1D3B006DEEA6 /* TimeLineSlider.swift */; };
 		8AA5285E236C718A00886458 /* PlayerDismissingAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA5285D236C718A00886458 /* PlayerDismissingAnimationController.swift */; };
+		8ADAE57523772A680027C79A /* UIView+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADAE57423772A680027C79A /* UIView+extensions.swift */; };
 		9039B2CF23588AC60092B8AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9039B2AF23588AC60092B8AA /* Assets.xcassets */; };
 		9039B2D023588AC60092B8AA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9039B2B023588AC60092B8AA /* LaunchScreen.storyboard */; };
 		9039B2D123588AC60092B8AA /* piano.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9039B2B223588AC60092B8AA /* piano.mp3 */; };
@@ -62,6 +63,7 @@
 		8A4EF1A12372CB6F00FA0773 /* UIImage+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+extensions.swift"; sourceTree = "<group>"; };
 		8A59ABCB236B1D3B006DEEA6 /* TimeLineSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineSlider.swift; sourceTree = "<group>"; };
 		8AA5285D236C718A00886458 /* PlayerDismissingAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDismissingAnimationController.swift; sourceTree = "<group>"; };
+		8ADAE57423772A680027C79A /* UIView+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+extensions.swift"; sourceTree = "<group>"; };
 		9039B2AF23588AC60092B8AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9039B2B123588AC60092B8AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9039B2B223588AC60092B8AA /* piano.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = piano.mp3; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				8A4D0CD023682BD000CB83DF /* Rx+extensions.swift */,
 				8A4D0CD223683F8C00CB83DF /* CMTime+extensions.swift */,
 				8A4EF1A12372CB6F00FA0773 /* UIImage+extensions.swift */,
+				8ADAE57423772A680027C79A /* UIView+extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -495,6 +498,7 @@
 				8A3B126723705DEB00E4AA52 /* PlayerPresentationController.swift in Sources */,
 				9039B2D923588AC60092B8AA /* SceneDelegate.swift in Sources */,
 				9039B2E123588AC60092B8AA /* MiniPlayerViewController.swift in Sources */,
+				8ADAE57523772A680027C79A /* UIView+extensions.swift in Sources */,
 				9039B2DA23588AC60092B8AA /* PlayPauseViewModel.swift in Sources */,
 				9039B2DF23588AC60092B8AA /* PlayerViewController.swift in Sources */,
 				9039B2DB23588AC60092B8AA /* PlayPauseButton.swift in Sources */,
